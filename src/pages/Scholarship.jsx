@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom"
 const Scholarship = () => {
 
   const handleScholarship = () => {
@@ -75,12 +76,13 @@ const Scholarship = () => {
         {/* Contact Section */}
         <div className="text-center mt-12">
           <h3 className="text-2xl font-semibold text-gray-600 mb-4">Contact Us for More Information</h3>
-            <a
-          href="/contact"
-          className="inline-block bg-[#ff0000] hover:bg-black text-white px-5 py-2 rounded-lg font-semibold shadow-lg transition"
-        >
-          Contact Us
-        </a>
+          
+            <Link
+                  to="/contact"
+                  className="inline-block bg-[#ff0000] hover:bg-black text-white px-5 py-2 rounded-lg font-semibold shadow-lg transition"
+                >
+                  Contact Us
+                </Link>
         </div>
       </div>
     </div>
