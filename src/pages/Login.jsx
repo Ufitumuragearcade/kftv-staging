@@ -17,6 +17,20 @@ import {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+function checkPasswordStrength(pw) {
+  if (!pw) return { score: 0, label: "", color: "" };
+  let score = 0;
+  if (pw.length >= 6) score++;
+  if (pw.length >= 8) score++;
+  if (pw.length >= 12) score++;
+  if (/[a-z]/.test(pw) && /[A-Z]/.test(pw)) score++;
+  if (/\d/.test(pw)) score++;
+  if (/[^a-zA-Z0-9]/.test(pw)) score++;
+  if (score <= 2) return { score, label: "Weak", color: "#d92332" };
+  if (score <= 4) return { score, label: "Fair", color: "#f59e0b" };
+  return { score, label: "Strong", color: "#16a34a" };
+}
+
 // Turn Firebase/technical errors into plain, human-readable messages.
 function friendlyError(err) {
   if (!err) return "Something went wrong. Please try again.";
@@ -183,7 +197,12 @@ const Login = () => {
       return;
     }
     if (password.length < 6) {
-      setMsg({ type: "error", text: "Please choose a password with at least 6 characters." });
+      setMsg({ type: "error", text: "Password must be at least 6 characters long." });
+      return;
+    }
+    const pwStrength = checkPasswordStrength(password);
+    if (pwStrength.score <= 2) {
+      setMsg({ type: "error", text: "Your password is too weak. Add uppercase letters, numbers, or symbols to make it stronger." });
       return;
     }
     if (!agreed) {
@@ -576,6 +595,32 @@ setAcctType(exists === false ? "new" : null);
                       {showPw ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>
                   </div>
+                  {password.length > 0 && (
+                    <div className="mt-2">
+                      <div className="flex gap-1">
+                        {[1, 2, 3, 4, 5, 6].map((i) => (
+                          <div
+                            key={i}
+                            className="h-1 flex-1 rounded-full transition-colors duration-200"
+                            style={{
+                              backgroundColor:
+                                i <= checkPasswordStrength(password).score
+                                  ? checkPasswordStrength(password).color
+                                  : "#e5e7eb"
+                            }}
+                          />
+                        ))}
+                      </div>
+                      <p
+                        className="mt-1 text-[11px] font-semibold"
+                        style={{ color: checkPasswordStrength(password).color }}
+                      >
+                        {checkPasswordStrength(password).label}
+                        {checkPasswordStrength(password).score <= 2 &&
+                          " — add uppercase, numbers, or symbols"}
+                      </p>
+                    </div>
+                  )}
                   <div className="mt-4 flex items-start gap-2 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5">
                     <input
                       id="agree-terms"
