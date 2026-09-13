@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 export default function PayLater() {
-  const applicationUrl = "https://forms.gle/nN3H2U91PtZm3q2u7";
+  const applicationUrl = "/apply";
   // Placeholder banner image - replace with your actual KFTV image URL
   const heroImageUrl = "/new2.png";
 
@@ -23,7 +23,7 @@ export default function PayLater() {
           style={{ backgroundImage: `url('${heroImageUrl}')` }}
         >
           {/* Dark Overlay for readability */}
-          <div className="hidden lg:flex absolute inset-0 bg-gradient-to-l from-gray-950/90 toblack-950/90 backdrop-blur-[0px]"></div>
+          <div className="hidden lg:flex absolute inset-0 bg-gray-950/90 backdrop-blur-[0px]"></div>
 
           {/* Hero Content Container */}
           <div className="relative hidden lg:flex z-10 w-full p-6 sm:p-10 lg:p-5 flex gap-8 items-center">

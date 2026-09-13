@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
+    "firebase": "^9.23.0",
     "framer-motion": "^12.42.2",
     "lucide-react": "^1.25.0",
+    "pdf-lib": "^1.17.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-helmet-async": "^3.0.0",

@@ -8,7 +8,6 @@ import "swiper/css/pagination";
 import { Link } from "react-router-dom";
 
 function Home() {
-  const applicationLink = "https://forms.gle/X1dbz4QjQ8Z5oXkH9";
   const homeYoutube =
     "https://www.youtube.com/embed/mDjFvKQeybA?autoplay=1&mute=1";
 
@@ -110,7 +109,7 @@ function Home() {
               alt="Kigali Film and Television School Studio"
               className="w-full h-full object-cover animate-zoom-slow"
             />
-            <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-white to-transparent"></div>
+            <div className="absolute top-0 left-0 w-full h-1/3 bg-white"></div>
           </div>
 
           {/* Text */}
@@ -205,12 +204,12 @@ function Home() {
 
         {/* Call-to-Action */}
         <div className="mt-12 text-center">
-          <a
-            href={applicationLink}
+          <Link
+            to="/apply"
             className="inline-block bg-red-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:bg-black transition"
           >
             Apply Now
-          </a>
+          </Link>
         </div>
       </div>
 

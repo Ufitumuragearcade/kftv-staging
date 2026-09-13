@@ -1,5 +1,4 @@
 import React from 'react';
-import { Helmet } from "react-helmet-async";
 const About = () => {
   return (
     <section className="bg-[#e6f4fa] py-16">

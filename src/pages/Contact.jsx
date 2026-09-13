@@ -1,6 +1,6 @@
 
-import { HiOutlineMail, HiOutlinePhone, HiOutlineCalendar, HiOutlineLocationMarker, HiOutlineStatusOffline, HiOutlineDesktopComputer, HiOutlineLink } from "react-icons/hi";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { HiOutlineMail, HiOutlineCalendar, HiOutlineLocationMarker, HiOutlineLink } from "react-icons/hi";
+import { FaFacebook, FaInstagram, FaComments, FaPhoneAlt } from "react-icons/fa";
 import { Helmet } from "react-helmet-async";
 const Contact = () => {
  const calender ="https://calendly.com/kftv/15min"
@@ -46,16 +46,16 @@ const fb ="https://www.facebook.com/KFTVschool1?mibextid=rS40aB7S9Ucbxw6v"
             href="https://wa.me/250788363732"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gray-900 text-white px-5 py-2 rounded-lg hover:bg-green-600 transition"
+            className="flex items-center gap-2 bg-gray-900 text-white px-5 py-2 rounded-lg hover:bg-green-600 transition"
           >
-            💬 Chat with Us
+            <FaComments /> Chat with Us
           </a>
           {/* Phone Call */}
           <a
             href="tel:+250788363732"
-            className="bg-[#ff0000] text-white px-5 py-2 rounded-lg hover:bg-red-700 transition"
+            className="flex items-center gap-2 bg-[#ff0000] text-white px-5 py-2 rounded-lg hover:bg-red-700 transition"
           >
-            📞 Call Us
+            <FaPhoneAlt /> Call Us
           </a>
       </div>
 
@@ -63,7 +63,7 @@ const fb ="https://www.facebook.com/KFTVschool1?mibextid=rS40aB7S9Ucbxw6v"
       <div className="flex flex-col items-center bg-white text-black rounded-xl p-6 shadow-md hover:scale-105 transform transition duration-300">
         <HiOutlineMail className="text-3xl text-[#ff0000] mb-4" />
         <p className="font-semibold">Email</p>
-        <p className="text-gray-700 mt-1 text-center">kftvschool@kftv.com  <br />kftvschool@gmail.com  </p>
+        <p className="text-gray-700 mt-1 text-center">Admission@kftv.org</p>
       </div>
 
       {/* Location */}

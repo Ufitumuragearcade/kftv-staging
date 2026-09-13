@@ -1,6 +1,5 @@
 
-import { motion, useInView } from "framer-motion";
-import { Helmet } from "react-helmet-async";
+import { motion } from "framer-motion";
 import  { useEffect } from "react";
 const videos = [
   
@@ -47,7 +46,7 @@ const StudentLifeSection = () => {
     }
   }, []);
   return (
-    <section className="w-full h-screen bg-gradient-to-b from-gray-50 to-gray-100 p-8">
+    <section className="w-full h-screen bg-gray-100 p-8">
       <div className="max-w-7xl mx-auto h-full grid grid-cols-1 lg:grid-cols-2 gap-8">
         
      {/* Left Column: Student Life Content */}
@@ -97,7 +96,7 @@ const StudentLifeSection = () => {
   </p>
 
   <a
-    href="https://forms.gle/rfV8eDv7XmWoyVgM9"
+    href="/apply"
     className="inline-block bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-black transition"
   >
     Apply Now

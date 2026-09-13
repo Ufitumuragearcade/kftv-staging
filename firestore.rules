@@ -1,0 +1,94 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Admins are recognised by email in this allowlist.
+    function isAdmin() {
+      return isSignedIn() &&
+        request.auth.token.email in ['kftv@admin.com', 'kftv.admin@kftv.com', 'Admission@kftv.org', 'arcadecena@gmail.com'];
+    }
+
+    // ---- Intakes ----
+    // Everyone signed in can read intakes; only admins can write them.
+    match /intakes/{intakeId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // ---- Users (applicants) ----
+    // A signed-in user manages only their own record; admins can view all.
+    match /users/{uid} {
+      allow read: if isAdmin() || (isSignedIn() && request.auth.uid == uid);
+      allow write: if isSignedIn() && request.auth.uid == uid;
+    }
+
+    // ---- Known-emails registry ----
+    // Publicly readable so the (signed-out) sign-up form can tell an existing
+    // email from a new one before sending a verification code. Only the owner
+    // of an email can create/update their own entry.
+    match /emails/{email} {
+      allow read: if true;
+      allow write: if isSignedIn() &&
+        request.resource.data.email is string &&
+        request.resource.data.email.lower() == email.lower() &&
+        request.auth.token.email.lower() == email.lower();
+    }
+
+    // ---- Counters (admission numbers) ----
+    match /counters/{counterId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // ---- OTP sign-in codes ----
+    // Created/read/deleted by the Apps Script backend (the script owner is an
+    // admin). Clients never touch these documents directly.
+    match /otps/{key} {
+      allow read, write: if isAdmin();
+    }
+
+    // ---- Passwordless login "doorkeys" ----
+    // Written by the browser the moment an OTP-created Firebase account is made,
+    // read by the Apps Script backend (admin) to sign the user back in later.
+    match /doorkeys/{key} {
+      allow read: if isAdmin();
+      allow write: if isSignedIn() &&
+        request.resource.data.email == request.auth.token.email;
+    }
+
+    // ---- Applications ----
+    match /applications/{docId} {
+      // Applicants can only ever read their own application (matched by doc id
+      // or by a query constrained to their own userId); admins may read all.
+      // NOTE: Firebase rules do not filter query results — the query (where
+      // userId == me) automatically returns only the caller's own docs, and
+      // this rule re-checks that same condition on every returned document.
+      allow read: if isAdmin() ||
+        (isSignedIn() && resource.data.userId == request.auth.uid);
+
+      // A user can create an application only for themselves.
+      allow create: if isSignedIn() &&
+        request.resource.data.userId == request.auth.uid;
+
+      // Admins may update any application. A user may update their own record
+      // only when the change does NOT touch server-managed fields (payments,
+      // status, intake, admission number) — those are written by the school or
+      // by the payment webhook, and must never be forgeable from the browser.
+      allow update: if isAdmin() ||
+        (isSignedIn() &&
+          resource.data.userId == request.auth.uid &&
+          !touchesSensitiveFields());
+
+      allow delete: if false;
+    }
+
+    function touchesSensitiveFields() {
+      return request.resource.data.diff(resource.data).affectedKeys()
+        .hasAny(['status', 'payments', 'intakeCategory', 'assignedIntake', 'admissionNo']);
+    }
+  }
+}

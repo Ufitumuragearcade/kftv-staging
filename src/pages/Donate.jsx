@@ -1,6 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from "react-icons/fa";
 const Donate = () => {
 
   const videos = [
@@ -135,11 +136,11 @@ const Donate = () => {
           >
             Donate Online
           </a>
-          <p className="text-lg mt-4">
-            📧 Email: <a href="mailto:donate@kftv.org" className="underline">donate@kftv.org</a> | 📞 Call: +250788306623
+          <p className="flex items-center justify-center gap-2 text-lg mt-4">
+            <FaEnvelope /> Email: <a href="mailto:donate@kftv.org" className="underline">donate@kftv.org</a> | <FaPhoneAlt /> Call: +250788306623
           </p>
-          <p>
-            📍 Visit: Kigali Film and Television School, Kigali, Rwanda
+          <p className="flex items-center justify-center gap-2">
+            <FaMapMarkerAlt /> Visit: Kigali Film and Television School, Kigali, Rwanda
           </p>
         </div>
 

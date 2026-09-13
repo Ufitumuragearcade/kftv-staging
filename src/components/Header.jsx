@@ -1,115 +1,134 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+
+const NAV = [
+  { name: "Home", path: "/" },
+  { name: "Programs", path: "/programs" },
+  { name: "scholarship", path: "/scholarship" },
+  { name: "About Us", path: "/about" },
+  { name: "Student Life", path: "/Life" },
+  { name: "News", path: "/media" },
+  { name: "Donate", path: "/donate" },
+  { name: "Study Now Pay Later", path: "/studyNow" },
+  { name: "Contact", path: "/contact" }
+];
+
+const linkClass = ({ isActive }) =>
+  `whitespace-nowrap rounded-md px-2.5 py-1.5 text-sm font-medium transition-colors ${
+    isActive
+      ? "bg-red-50 text-[#ff0000] font-semibold"
+      : "text-gray-700 hover:bg-gray-100 hover:text-[#ff0000]"
+  }`;
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
-  // Pages to search
-  const pages = [
-    { name: "Home", path: "/" },
-    { name: "Programs", path: "/programs" },
-    { name: "scholarship", path: "/scholarship" },
-    { name: "About Us", path: "/about" },
-    { name: "Student Life", path: "/Life" },
-    { name: "News", path: "/media" },
-    { name: "Donate", path: "/donate" },
-    { name: "Study Now Pay Later", path: "/studyNow" },
-     { name: "Contact", path: "/contact" },
-  ];
+  const allPages = NAV;
 
   const handleSearch = (e) => {
     e.preventDefault();
     const query = searchTerm.trim().toLowerCase();
     if (!query) return;
-
-    const match = pages.find((p) => p.name.toLowerCase().includes(query));
-
+    const match = allPages.find((p) =>
+      p.name.toLowerCase().includes(query)
+    );
     if (match) {
       navigate(match.path);
     } else {
       alert("No results found");
     }
-
     setSearchTerm("");
     setIsOpen(false);
   };
 
-  // Styling for active/inactive links (desktop)
-  const linkClass = ({ isActive }) =>
-    `hover:underline transition-colors ${isActive ? "text-black" : "text-[#ff0000]"}`;
+  const closeAll = () => {
+    setIsOpen(false);
+  };
+
+  const SearchForm = () => (
+    <form onSubmit={handleSearch} className="flex">
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder="Search..."
+        aria-label="Search"
+        className="w-36 rounded-l-lg border border-gray-300 px-3 py-1.5 text-sm focus:border-[#ff0000] focus:outline-none"
+      />
+      <button
+        type="submit"
+        className="rounded-r-lg bg-[#ff0000] px-3 py-1.5 text-sm font-semibold text-white hover:bg-red-600 transition-colors"
+      >
+        Go
+      </button>
+    </form>
+  );
 
   return (
-    <header className="sticky top-0 w-full bg-white shadow z-50">
-      <nav className="container mx-auto flex justify-between items-center px-4 py-2">
-        {/* Logo */}
-        <NavLink to="/" onClick={() => setIsOpen(false)}>
+    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 shadow-sm backdrop-blur">
+      <nav className="container mx-auto flex items-center justify-between gap-2 px-4 lg:px-6">
+        <NavLink to="/" onClick={closeAll} className="shrink-0">
           <img
             src="logo1.png"
             alt="Kigali Film and Television School Logo"
-            className="h-12"
+            className="h-11 md:h-12 py-1"
           />
         </NavLink>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center space-x-4 font-semibold">
-          {pages.map((p) => (
+        {/* Desktop Nav */}
+        <div className="hidden items-center gap-1 lg:flex">
+          {NAV.map((p) => (
             <NavLink key={p.path} to={p.path} className={linkClass}>
               {p.name}
             </NavLink>
           ))}
+        </div>
 
-          {/* Search */}
-          <form onSubmit={handleSearch} className="ml-4 flex">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search..."
-              className="px-2 py-1 border border-[#ff0000] rounded-l-md focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="bg-[#ff0000] text-white px-3 rounded-r-md font-semibold hover:bg-red-700 transition-colors"
-            >
-              Go
-            </button>
-          </form>
+        {/* Desktop right side */}
+        <div className="hidden items-center gap-3 lg:flex">
+          <SearchForm />
         </div>
 
         {/* Mobile Menu Button */}
         <button
           aria-label="Toggle Menu"
-          className="md:hidden text-3xl focus:outline-none"
-          onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+          className="lg:hidden text-2xl p-2 text-gray-800 focus:outline-none"
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
         >
-          {isOpen ? "✖" : "☰"}
+          {isOpen ? "✕" : "☰"}
         </button>
       </nav>
 
-      {/* Mobile Dropdown */}
+      {/* Mobile Drawer */}
       <div
-        className={`md:hidden bg-white border-t border-gray-200 font-semibold transition-all duration-300 overflow-hidden ${
-          isOpen ? "max-h-screen opacity-100 p-4" : "max-h-0 opacity-0 p-0"
+        className={`lg:hidden border-t border-gray-200 bg-white transition-all duration-300 overflow-hidden ${
+          isOpen ? "max-h-[80vh] overflow-y-auto p-4" : "max-h-0 p-0"
         }`}
       >
-        <div className="flex flex-col space-y-2">
-          {pages.map((p) => (
+        <div className="flex flex-col gap-1">
+          <SearchForm />
+          <div className="my-2 h-px bg-gray-200" />
+          {allPages.map((p) => (
             <NavLink
               key={p.path}
               to={p.path}
               className={({ isActive }) =>
-                `hover:underline transition-colors ${
-                  isActive ? "text-black" : "text-[#ff0000]"
-                } font-bold`
+                `rounded-md px-3 py-2 text-sm font-medium ${
+                  isActive
+                    ? "bg-red-50 text-[#ff0000] font-semibold"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`
               }
               onClick={() => setIsOpen(false)}
             >
               {p.name}
             </NavLink>
           ))}
-          {/* Mobile search removed */}
         </div>
       </div>
     </header>

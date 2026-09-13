@@ -1,19 +1,18 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 const Scholarship = () => {
+  const navigate = useNavigate();
 
   const handleScholarship = () => {
     // Send a custom event to Google Tag Manager
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       event: "apply for a program ", // Custom event name
-      formName: "Google Form - application for a program" // Optional metadata
+      formName: "KFTV application form" // Optional metadata
     });
 
-    // Open the Google Form in a new tab
-    window.open("https://forms.gle/DGNgaJQ1MajVFmwFA", "_blank");
+    // Open the application form
+    navigate("/apply");
   };
 
   return (

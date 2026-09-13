@@ -1,56 +1,32 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import "swiper/css";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Helmet } from "react-helmet-async";
 
 
 const Programs = () => {
-  const applicationLink = "https://forms.gle/X1dbz4QjQ8Z5oXkH9";
-  const shortCourse = "https://forms.gle/jj99NRyXDpwnfMF89";
-  const internship = "https://forms.gle/LmNKPbbV7ozK1LiG8";
+  const navigate = useNavigate();
 
-
-  const handleApplication = () => {
-    // Send a custom event to Google Tag Manager
+  const goApply = () => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      event: "apply for a program ", // Custom event name
-      formName: "Google Form - application for a program" // Optional metadata
+      event: "apply for a program ",
+      formName: "KFTV application form"
     });
-
-    // Open the Google Form in a new tab
-    window.open(applicationLink, "_blank");
+    navigate("/apply");
   };
 
-  const handleShortCourse = () => {
-    // Send a custom event to Google Tag Manager
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: "apply for a short course ", // Custom event name
-      formName: "Google Form - application for a short course" // Optional metadata
-    });
+  const handleApplication = () => goApply();
 
-    // Open the Google Form in a new tab
-    window.open(shortCourse, "_blank");
-  };
+  const handleShortCourse = () => goApply();
 
-  const handleInternship = () => {
-    // Send a custom event to Google Tag Manager
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: "apply for an internship ", // Custom event name
-      formName: "Google Form - application for an internship" // Optional metadata
-    });
-
-    // Open the Google Form in a new tab
-    window.open(internship, "_blank");
-  };
+  const handleInternship = () => goApply();
 
   const programs = [
     {
@@ -198,11 +174,6 @@ const Programs = () => {
     "Conduct masterclasses or workshops",
   ];
 
-  const fadeUp = (delay = 0) => ({
-initial: { opacity: 0, y: 20 },
-animate: { opacity: 1, y: 0, transition: { duration: 0.6, delay } },
-});
-
 const ref = React.useRef(null);
   const isInView = useInView(ref, { once: true });
 
@@ -346,30 +317,30 @@ const ref = React.useRef(null);
           </thead>
           <tbody>
             <tr className="border-t">
-              <td className="px-6 py-4">Special course</td>
+              <td className="px-6 py-4">Special Course</td>
               <td className="px-6 py-4">1 Month</td>
-              <td className="px-6 py-4">150,000 RWF / 100 USD</td>
+              <td className="px-6 py-4">150,000 RWF</td>
             </tr>
              <tr className="border-t">
-              <td className="px-6 py-4">Short-Term </td>
+              <td className="px-6 py-4">Short-Term</td>
               <td className="px-6 py-4">3 Months</td>
-              <td className="px-6 py-4">450,000 RWF / 400 USD</td>
+              <td className="px-6 py-4">450,000 RWF</td>
             </tr>
             <tr className="border-t">
-              <td className="px-6 py-4">Short-Term </td>
+              <td className="px-6 py-4">Short-Term</td>
               <td className="px-6 py-4">6 Months</td>
-              <td className="px-6 py-4">770,000 RWF / 700 USD</td>
+              <td className="px-6 py-4">750,000 RWF</td>
             </tr>
             <tr className="border-t">
               <td className="px-6 py-4">One-Year Program</td>
               <td className="px-6 py-4">1 Year</td>
-              <td className="px-6 py-4">1,090,000 RWF / 1,100 USD</td>
+              <td className="px-6 py-4">1,050,000 RWF</td>
             </tr>
           </tbody>
           <tfoot className="font-semibold border-t">
             <tr>
               <td colSpan="3" className="px-4 py-2 text-center text-lg">
-                Registration fee: <b>13500 RWF</b> (one-time payment)
+                Registration fee: <b>13,500 RWF</b> (one-time payment)
               </td>
             </tr>
           </tfoot>
