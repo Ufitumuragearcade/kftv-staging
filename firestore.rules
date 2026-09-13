@@ -83,7 +83,7 @@ service cloud.firestore {
           resource.data.userId == request.auth.uid &&
           !touchesSensitiveFields());
 
-      allow delete: if false;
+      allow delete: if isAdmin();
     }
 
     function touchesSensitiveFields() {

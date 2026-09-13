@@ -33,7 +33,7 @@ function friendlyError(err) {
     case "auth/wrong-password":
     case "auth/invalid-credential":
     case "auth/invalid-login-credentials":
-      return "Incorrect email or password. Check your details, or use 'Forgot password?' to reset it.";
+      return "Incorrect email or password. If you've forgotten your password, tap 'Forgot password?' below to reset it.";
     case "auth/weak-password":
       return "That password is too weak. Please use at least 6 characters.";
     case "auth/too-many-requests":
@@ -210,7 +210,7 @@ const Login = () => {
         setAcctType("existing");
         setMsg({
           type: "error",
-          text: "An account already exists for this email, so you can't sign up again. Sign in with your password, tap 'Continue with Google' if you used Google, or use 'Forgot password?' to reset it."
+          text: "This email is already registered and cannot be used to sign up. Please go to the Sign In tab instead, or use 'Forgot password?' if you need to reset your password."
         });
         return;
       }
@@ -262,7 +262,7 @@ setAcctType(exists === false ? "new" : null);
         setAcctType("existing");
         setMsg({
           type: "error",
-          text: "This email already has an account, so it can't be used to sign up again. Go back to the first step and use the Sign In tab with your password, tap 'Continue with Google' if you used Google, or choose 'Forgot password?' to reset it."
+          text: "This email is already registered and cannot be used to sign up. Please go back and use the Sign In tab, or tap 'Forgot password?' to reset your password."
         });
       } else {
         setMsg({ type: "error", text: friendlyError(err) });
@@ -535,7 +535,7 @@ setAcctType(exists === false ? "new" : null);
                   />
                   {acctType === "existing" && (
                     <p className="mt-1.5 text-[12px] text-[#d92332]">
-                      You already have an account — use the Sign In tab with your password.
+                      This email is already registered. Please use the Sign In tab instead.
                     </p>
                   )}
                   {acctType === "new" && (

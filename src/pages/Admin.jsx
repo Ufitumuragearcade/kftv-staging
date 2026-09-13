@@ -263,9 +263,25 @@ const Admin = () => {
     }
   }
 
-  async function doStatus(appId, status) {
-    await db.collection("applications").doc(appId).update({ status });
-    await loadApplications();
+  async function doDelete(appId) {
+    const app = allApps.find((x) => x.id === appId);
+    if (!app) return;
+    const confirm1 = window.confirm(
+      `Are you sure you want to permanently delete "${app.names || "this student"}"?\n\nThis will remove their application, payment history, and all data from the system.`
+    );
+    if (!confirm1) return;
+    const confirm2 = window.confirm(
+      `This action CANNOT be undone. Type the student's name mentally and click OK to confirm permanent deletion of:\n\n• Application record\n• Payment history\n• All associated data`
+    );
+    if (!confirm2) return;
+    try {
+      await db.collection("applications").doc(appId).delete();
+      setSelectedId(null);
+      await loadApplications();
+      alert("Student deleted successfully.");
+    } catch (err) {
+      alert("Failed to delete: " + err.message);
+    }
   }
 
   async function doAssign(appId) {
@@ -965,6 +981,7 @@ const Admin = () => {
           onCloseApp={() => doStatus(selectedApp.id, "closed")}
           onAssign={() => doAssign(selectedApp.id)}
           onSendLetter={(kind) => sendLetter(selectedApp.id, kind)}
+          onDelete={() => doDelete(selectedApp.id)}
         />
       )}
     </div>
@@ -1080,7 +1097,8 @@ function DetailModal({
   onClose,
   onCloseApp,
   onAssign,
-  onSendLetter
+  onSendLetter,
+  onDelete
 }) {
   const appliedOn = app.createdAt
     ? new Date(app.createdAt.seconds ? app.createdAt.seconds * 1000 : app.createdAt).toLocaleString()
@@ -1214,6 +1232,12 @@ function DetailModal({
               Close Application
             </button>
           )}
+          <button
+            onClick={onDelete}
+            className="cursor-pointer rounded-[10px] bg-[#d92332] px-5 py-3 text-sm font-bold text-white hover:bg-[#991b25]"
+          >
+            Delete Student
+          </button>
           <button
             onClick={onClose}
             className="ml-auto cursor-pointer rounded-[10px] bg-gray-100 px-5 py-3 text-sm font-bold text-gray-900 hover:bg-gray-200"
