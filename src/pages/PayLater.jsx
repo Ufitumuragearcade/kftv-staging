@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 export default function PayLater() {
-  const applicationUrl = "/apply";
+  const applicationUrl = "https://forms.gle/nN3H2U91PtZm3q2u7";
   // Placeholder banner image - replace with your actual KFTV image URL
   const heroImageUrl = "/new2.png";
 

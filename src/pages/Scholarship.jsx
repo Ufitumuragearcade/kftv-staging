@@ -4,15 +4,12 @@ const Scholarship = () => {
   const navigate = useNavigate();
 
   const handleScholarship = () => {
-    // Send a custom event to Google Tag Manager
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      event: "apply for a program ", // Custom event name
-      formName: "KFTV application form" // Optional metadata
+      event: "apply for a scholarship",
+      formName: "Google Form - scholarship application"
     });
-
-    // Open the application form
-    navigate("/apply");
+    window.open("https://forms.gle/DGNgaJQ1MajVFmwFA", "_blank");
   };
 
   return (
